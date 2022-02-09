@@ -1,0 +1,42 @@
+@hostname = http://localhost:4000  
+
+
+GET {{hostname}}/api/v1/address 
+Content-Type: application/json
+###
+
+POST {{hostname}}/api/v1/address
+Content-Type: application/json
+
+{
+  "country": "PR",
+  "city": "Niece",
+  "street": "paris road",
+  "postalcode": 10234,
+  "number": "+234806635372",
+  "numberAddition": "",
+  "status": "",
+  "name": "",
+  "email": ""
+}
+
+###
+
+GET {{hostname}}/api/v1/address/61fbcc2f9705ff2760e839e7
+Content-Type: application/text
+
+###
+
+PATCH {{hostname}}/api/v1/address/61fbcc2f9705ff2760e839e7
+Content-Type: application/json
+
+{
+   "status": "not at home",
+   "email": "james@gmail.com",
+   "name": "John Doe"
+}
+
+###
+
+DELETE {{hostname}}/api/v1/address/61fbcc2f9705ff2760e839e7
+Content-Type: application/json
