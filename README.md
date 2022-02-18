@@ -8,18 +8,21 @@ and leverage MVC architecture.
 
 ## to run the project
 
-In the project directory, you can run.
-
+In the project directory.
 ### `npm install`
 
-To start the application.
-
-### `npm start`
+## To start the application in development mode.
+### `npm run dev start`
 
 Runs the app in the development mode.\
-Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
+Enter [http://localhost:4000](http://localhost:4000) in postman.
 
-## Project Documentation and Schema
-run the project by ### `npm start`
+## To start the application in production mode.
+### `npm start`
+Runs the app in the production mode.\
+Enter [http://localhost:4000](http://localhost:4000) in postman.
 
-then open [http://localhost:4000/api/v1/api-docs](http://localhost:4000/api/v1/api-docs) and view docs in the browser.
+### For the project documentation and schema.
+
+ while the app is running, please visit 
+    [http://localhost:4000/api/v1/api-docs](http://localhost:4000/api/v1/api-docs) and view the docs and endpoints.

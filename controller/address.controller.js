@@ -126,7 +126,7 @@ exports.deleteOneAddress = async (req, res, next) => {
 exports.updateOneAddress = async (req, res, next) => {
   const { id } = req.params;
 
-  const { name: names, email: emails, status: statuses } = req.body;
+  const { name, email, status: statuses } = req.body;
 
   try {
     let addressResults = await addressFetchOne(id);
@@ -150,8 +150,8 @@ exports.updateOneAddress = async (req, res, next) => {
         id,
         {
           $set: {
-            name: names,
-            email: emails,
+            name,
+            email,
             status: statuses,
           },
         },
