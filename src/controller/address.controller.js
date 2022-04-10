@@ -27,7 +27,7 @@ exports.getAllAddress = async (req, res, next) => {
       results,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -69,9 +69,6 @@ exports.createNewAddress = async (req, res, next) => {
       results,
     });
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      return next(createError(422, error));
-    }
     return next(error);
   }
 };
@@ -96,9 +93,6 @@ exports.getOneAddress = async (req, res, next) => {
       results,
     });
   } catch (error) {
-    if (error instanceof mongoosose.CastError) {
-      return next(createError(500, error));
-    }
     return next(error);
   }
 };
@@ -178,9 +172,6 @@ exports.updateOneAddress = async (req, res, next) => {
       results: addressResults,
     });
   } catch (error) {
-    if (error instanceof mongoosose.CastError) {
-      return next(createError(404, error));
-    }
-    return next(createError(422, `${error}`));
-  }
+    return next(error);
+  };
 };

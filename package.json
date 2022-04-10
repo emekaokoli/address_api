@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=production&&node ./src/utils/startServer",
     "dev": "set NODE_ENV=development&&nodemon ./src/utils/startServer",
-    "test": "jest --coverage --verbose --watchAll --runInBand --forceExit --maxWorkers=1",
+    "test": "jest --coverage --verbose --watchAll --runInBand --forceExit",
     "lint": "eslint --fix --cache"
   },
   "author": "EMEKA OKOLI",

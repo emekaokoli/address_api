@@ -2,11 +2,17 @@ const joi = require('joi');
 joi.objectId = require('joi-objectid')(joi);
 
 const BodySchema = joi.object().keys({
-  country: joi.string().required().messages({
-    'string.base': 'Country Code is required',
-    'string.empty': 'Country is required',
-    'string.required': 'Country is required',
-  }).min(2).max(2).uppercase(),
+  country: joi
+    .string()
+    .required()
+    .messages({
+      'string.base': 'Country Code is required',
+      'string.empty': 'Country is required',
+      'string.required': 'Country is required',
+    })
+    .min(2)
+    .max(2)
+    .uppercase(),
   city: joi.string().required().messages({
     'string.base': 'city must be a string',
     'string.empty': 'city is required',

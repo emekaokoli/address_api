@@ -1,28 +1,61 @@
 # The Address API.
-A simple api that lets you add new address and manage details.
+A simple Address api that lets you create, update, and delete addresses.
 
-## Architecture.
-The API is built on top of the [`express`](https://expressjs.com/) framework. 
+- Add new address and manage details.
+- Get all addresses.
+- Get a specific address by id.
+- Update an address by id.
+- Delete an address by id.
 
-and leverage MVC architecture.
+## Technologies used.
+- Express framework.
+- Joi is used for validation.
+- Mongodb is used for database.
+- Nodejs is used for server.
 
-## to run the project
+```bash
+## directory structure.
+src # The source code.
+ ┣ controller # The controller.
+ ┃ ┗ address.controller.js # The address controller.
+ ┣ middleware # The middleware.
+ ┃ ┗ validation.js # The validation middleware.
+ ┣ models # The models.
+ ┃ ┗ address.model.js # The address model.
+ ┣ routes # The routes.
+ ┃ ┗ address.routes.js # The address routes.
+ ┣ schema # The schema.
+ ┃ ┗ validateReq.schema.js # The validation schema.
+ ┣ service # The service.
+ ┃ ┗ address.service.js # The address service.
+ ┣ utils # The utils. 
+ ┃ ┣ connect.mongoose.utils.js # The connect mongoose utils.
+ ┃ ┗ startServer.js # The start server utils.
+ ┗ index.js # The index.
 
-In the project directory.
-### `npm install`
+```
+## to run the project.
 
-## To start the application in development mode.
-### `npm run dev start`
+### `yarn install`
 
+## To start in development mode.
+### `yarn dev`
+
+## To start in production mode.
+### `yarn start`
+
+## To test.
+### `yarn test`
 Runs the app in the development mode.\
-Enter [http://localhost:4000](http://localhost:4000) in postman.
+Enter [http://localhost:1339/api/v1/address](http://localhost:1339/api/v1/address) in postman.
 
-## To start the application in production mode.
-### `npm start`
 Runs the app in the production mode.\
-Enter [http://localhost:4000](http://localhost:4000) in postman.
+Enter [http://localhost:1339/api/v1/address](http://localhost:1339/api/v1/address) in postman.
 
 ### For the project documentation and schema.
 
  while the app is running, please visit 
-    [http://localhost:4000/api/v1/api-docs](http://localhost:4000/api/v1/api-docs) and view the docs and endpoints.
+    [http://localhost:1339/api/v1/documentation](http://localhost:1339/api/v1/documentation) and view the docs and endpoints.
+
+# Please note: 
+This project requires .env file to be present in the root directory to work, request for it if you will like to test the project.
