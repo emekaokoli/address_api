@@ -2,13 +2,14 @@
 const mongoosose = require('mongoose');
 const createError = require('http-errors');
 
-const { successMessage } = require('../utils/reponse');
-const { statusTypes } = require('../utils/constants/statusTypes');
-const { addressFetch } = require('../service/address.fetch.services');
-const { addressPost } = require('../service/address.post.service');
-const { addressFetchOne } = require('../service/address.fetchOne.service');
-const { addressDeleteOne } = require('../service/address.delete.service');
-const { addressUpdateOne } = require('../service/address.update.service');
+const statusTypes = require('../../constants/statusTypes');
+const {
+  getAddress,
+  postAddress,
+  getOneAddressById,
+  deleteOneAddressById,
+  updateOneAddressById,
+} = require('../service/address.service');
 
 /**
  * @description gets all data in the database
@@ -19,8 +20,12 @@ const { addressUpdateOne } = require('../service/address.update.service');
  */
 exports.getAllAddress = async (req, res, next) => {
   try {
-    const { results, count } = await addressFetch();
-    successMessage(res, 200, results, 'success', count);
+    const { results, count } = await getAddress();
+    return res.status(200).send({
+      success: true,
+      count,
+      results,
+    });
   } catch (error) {
     next(error);
   }
@@ -46,7 +51,7 @@ exports.createNewAddress = async (req, res, next) => {
     email,
   } = req.body;
   try {
-    const results = await addressPost({
+    const results = await postAddress({
       country,
       city,
       street,
@@ -59,12 +64,15 @@ exports.createNewAddress = async (req, res, next) => {
     });
 
     res.location(`/api/v1/address/${results.id}`);
-    successMessage(res, 201, results, 'Success');
+    return res.status(201).send({
+      success: true,
+      results,
+    });
   } catch (error) {
     if (error.name === 'ValidationError') {
-      return next(createError(422, error.message));
+      return next(createError(422, error));
     }
-    next(error);
+    return next(error);
   }
 };
 /**
@@ -77,19 +85,21 @@ exports.createNewAddress = async (req, res, next) => {
 exports.getOneAddress = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await addressFetchOne(id);
+    const results = await getOneAddressById(id);
 
     if (!results) {
       return next(createError(404, 'this record does not exist'));
     }
 
-    successMessage(res, 200, results, 'success');
+    return res.status(200).send({
+      success: true,
+      results,
+    });
   } catch (error) {
     if (error instanceof mongoosose.CastError) {
-      next(createError(500, error.message));
-      return;
+      return next(createError(500, error));
     }
-    next(error);
+    return next(error);
   }
 };
 /**
@@ -102,18 +112,18 @@ exports.getOneAddress = async (req, res, next) => {
 exports.deleteOneAddress = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const deletedItem = await addressDeleteOne(id);
+    const deletedItem = await deleteOneAddressById(id);
 
     if (!deletedItem) {
-      throw createError(404, `${id} does not exist`);
+      throw createError(404, 'id does not exist');
     }
 
-    successMessage(res, 204);
+    return res.status(200).send({
+      success: true,
+      message: 'address deleted successfully',
+    });
   } catch (error) {
-    if (error instanceof mongoosose.CastError) {
-      return next(createError(500, error.message));
-    }
-    next(createError(409, error.message));
+    return next(error);
   }
 };
 /**
@@ -129,12 +139,13 @@ exports.updateOneAddress = async (req, res, next) => {
   const { name, email, status: statuses } = req.body;
 
   try {
-    let addressResults = await addressFetchOne(id);
-    if (!addressResults) return next(createError(404, 'Record not found'));
+    let addressResults = await getOneAddressById(id);
+    if (!addressResults)
+      return next(createError(404, 'Record not found'));
 
     const { status } = addressResults;
 
-    const transFormedStatus = status.toLowerCase();
+    const transFormedStatus = status?.toLowerCase();
 
     if (transFormedStatus === statusTypes.notInterested) {
       return next(createError(403, 'user is not interested'));
@@ -146,7 +157,7 @@ exports.updateOneAddress = async (req, res, next) => {
       transFormedStatus === statusTypes.notAtHome ||
       transFormedStatus === statusTypes.none
     ) {
-      addressResults = await addressUpdateOne(
+      addressResults = await updateOneAddressById(
         id,
         {
           $set: {
@@ -155,34 +166,21 @@ exports.updateOneAddress = async (req, res, next) => {
             status: statuses,
           },
         },
-        { new: true },
+        { new: true }
       );
     }
     await addressResults.save();
-    if (!result) return next(createError(404, 'Record not found'));
+    if (!addressResults)
+      return next(createError(404, 'Record not found'));
 
-    return successMessage(res, 200, '', 'update success');
+    return res.status(200).send({
+      success: true,
+      results: addressResults,
+    });
   } catch (error) {
     if (error instanceof mongoosose.CastError) {
-      return next(createError(404, error.message));
+      return next(createError(404, error));
     }
-    next(createError(422, `${error.message}`));
+    return next(createError(422, `${error}`));
   }
-};
-
-exports.Destroy = async (req, res, next) => {
-  next(createError(403, 'Update operation not supported without ID'));
-};
-
-exports.Put = async (req, res, next) => {
-  next(createError(403, 'Update operation not supported without ID'));
-};
-
-exports.Post = async (req, res, next) => {
-  next(
-    createError(
-      403,
-      `Update operation not supported, please remove ${req.params.id} before posting new data`,
-    ),
-  );
 };

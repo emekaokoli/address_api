@@ -1,7 +1,8 @@
 // @ts-check
 const validator = require('validator');
 const Mongoose = require('mongoose');
-const Schema = Mongoose.Schema;
+
+const { Schema } = Mongoose;
 
 const addressSchema = new Schema({
   country: {
@@ -77,6 +78,6 @@ const addressSchema = new Schema({
   },
 });
 
-const Address = Mongoose.model('Address', addressSchema);
+const Address = Mongoose.model('address', addressSchema);
 
 module.exports = Address;

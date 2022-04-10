@@ -4,14 +4,15 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=production&&node ./bin/www",
-    "dev": "set NODE_ENV=development&&nodemon index.js ./bin/www"
+    "start": "set NODE_ENV=production&&node ./src/utils/startServer",
+    "dev": "set NODE_ENV=development&&nodemon ./src/utils/startServer",
+    "test": "jest --coverage --verbose --watchAll --runInBand --forceExit --maxWorkers=1",
+    "lint": "eslint --fix --cache"
   },
   "author": "EMEKA OKOLI",
   "license": "MIT",
   "dependencies": {
-    "apicache": "^1.6.3",
-    "cookie-parser": "~1.4.4",
+    "consola": "^2.15.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^15.0.0",
@@ -19,14 +20,22 @@
     "express-validator": "^6.14.0",
     "http-errors": "^2.0.0",
     "joi": "^17.6.0",
-    "mongodb": "^4.3.1",
-    "mongoose": "^6.1.10",
+    "joi-objectid": "^4.0.2",
+    "mongodb": "^4.4.1",
+    "mongoose": "^6.2.9",
     "morgan": "~1.9.1",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.5.1",
+    "mongodb-memory-server": "^8.4.2",
+    "nodemon": "^2.0.15",
+    "prettier-eslint": "^13.0.0",
+    "supertest": "^6.2.2"
   }
 }
