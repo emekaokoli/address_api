@@ -2,7 +2,7 @@
 const mongoosose = require('mongoose');
 const createError = require('http-errors');
 
-const statusTypes = require('../../constants/statusTypes');
+const statusTypes = require('../constants/statusTypes');
 const {
   getAddress,
   postAddress,
